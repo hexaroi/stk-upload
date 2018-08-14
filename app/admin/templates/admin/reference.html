@@ -1,5 +1,5 @@
 {# templates/login/reference.html_ #}
-{% extends "a_layout.html" %}
+{% extends "/admin/layout.html" %}
 {% block title %}Kirjautunut käyttäjä{% endblock %}
 {% block body %}
 {{ super() }}
@@ -32,7 +32,7 @@
 			<h3>Referenssinimienkäsittely</h3>
 			<ul><li>Listaukset</li><ul>
 	              <li><a href="/list/refnames">Listaa referenssinimet</a></li>
-	              <li><a href="/person/list_all/ref">Katso ihmiset referenssinimineen</a></li>
+	              <li><a href="/narrative/persons/all/ref">Katso ihmiset referenssinimineen</a></li>
               </ul>
 			  <li><a href="/set/refnames">Aseta muuttuneet referenssinimet
 			     kaikille ihmisille</a></li>
