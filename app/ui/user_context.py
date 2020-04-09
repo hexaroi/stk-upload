@@ -161,6 +161,7 @@ class UserContext():
         self.years = []                         # example [1800, 1899]
         self.series = None                      # Source data theme like "birth"
         self.count = 10000                      # Max count ow objects to display
+        self.lang = user_session.get('lang','') # User language
 
         ''' Set active user, if any username '''
         if current_user:
@@ -251,7 +252,7 @@ class UserContext():
         """
         self.nextpoint = self.NextStartPoint(self.session, var_name)
         self.scope = self.nextpoint.set_next_from_request(request)
-        print(f"UserContext: Now next item={self.scope}")
+        print(f"UserContext: Now {var_name} next item={self.scope}")
 
 
     def update_session_scope(self, var_name, name1, name2, limit, rec_cnt):
@@ -273,7 +274,7 @@ class UserContext():
         if self.scope[0] > ' ':
             self.scope[0] = name1
         if scope0 != self.scope:
-            print(f"update_session_scope: New scope {self.scope[0]!r} – {self.scope[1]!r}")
+            print(f"update_session_scope: New {var_name} scope {self.scope[0]!r} – {self.scope[1]!r}")
 
         self.session[var_name] = self.scope
         print(f"--> {repr(self.session)}")
