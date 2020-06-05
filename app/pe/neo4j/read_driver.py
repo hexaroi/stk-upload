@@ -559,10 +559,11 @@ class Neo4jReadDriver:
 
                 node = record["place"]
                 pl = PlaceBl.from_node(node)
+                node_ids.append(pl.uniq_id)
                 # Default lang name
                 name_node = record["name"]
-                pl.name = PlaceName.from_node(name_node)
-                node_ids.append(pl.uniq_id)
+                if name_node:
+                    pl.names.append(PlaceName.from_node(name_node))
                 # Other name versions
                 for name_node in record["names"]:
                     pl.names.append(PlaceName.from_node(name_node))
@@ -571,13 +572,13 @@ class Neo4jReadDriver:
                 for notes_node in record['notes']:
                     n = Note.from_node(notes_node)
                     pl.notes.append(n)
-                    node_ids.append(pl.names[-1].uniq_id)
+                    node_ids.append(pl.notes[-1].uniq_id)
 
                 for medias_node in record['medias']:
                     m = Media.from_node(medias_node)
                     #Todo: should replace pl.media_ref[] <-- pl.medias[]
                     pl.media_ref.append(m)
-                    node_ids.append(pl.names[-1].uniq_id)
+                    node_ids.append(pl.media_ref[-1].uniq_id)
 
         return {"place":pl, "uniq_ids":node_ids}
 
@@ -642,8 +643,9 @@ class Neo4jReadDriver:
                 lv = t.tree.depth(n)
                 p = PlaceBl(uniq_id=tnode, ptype=n.data['type'], level=lv)
                 p.uuid = n.data['uuid']
-                node = record['name']    
-                p.names.append(PlaceName.from_node(node))
+                node = record['name']
+                if node:
+                    p.names.append(PlaceName.from_node(node))
                 oth_names = []
                 for node in record['names']:
                     oth_names.append(PlaceName.from_node(node))
